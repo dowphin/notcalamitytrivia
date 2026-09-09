@@ -14,3 +14,8 @@ def build_diva_embed(title, description):
     embed = Embed(title=title, description=description, color=Color.from_rgb(245, 171, 224))
     embed.set_author(name="Diva Slime", icon_url="https://terraria.wiki.gg/images/Diva_Slime.gif?fec9c4")
     return embed
+
+def build_cool_embed(title, description):
+    embed = Embed(title=title, description=description, color=Color.from_rgb(0, 255, 0))
+    embed.set_author(name="Cool Slime", icon_url="https://terraria.wiki.gg/images/Cool_Slime.png?799de9")
+    return embed

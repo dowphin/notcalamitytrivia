@@ -1,5 +1,3 @@
-
-
 DISCORD_EPOCH = 1420070400000
 
 def snowflake_to_time(id):

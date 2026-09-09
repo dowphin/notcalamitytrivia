@@ -64,4 +64,3 @@ def answer_fix(): # cannot run this while the bot is active
         cur.execute("UPDATE questions SET answer = ? WHERE rowid = ?", (final_new, rowid))
 
     quest.commit()
-

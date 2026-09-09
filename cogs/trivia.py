@@ -6,7 +6,7 @@ import discord
 from discord.ext import commands
 from utils.points import add_point
 from utils.questions import total_questions, fetch_by_num
-from utils.embeds import build_mystic_embed
+from utils.embeds import build_mystic_embed, build_nerdy_embed
 from utils.calculations import time_difference
 
 
@@ -33,7 +33,7 @@ class Trivia(commands.Cog):
         editing_cog = self.bot.get_cog("EditSheet") # ensures trivia is not running simultaneously
 
         if editing_cog and editing_cog.active:
-            await ctx.send("You cannot run trivia while editing the sheet!")
+            await ctx.send(embed=build_nerdy_embed(title="Denied!", description="You cannot run trivia while editing the sheet!"))
             return
 
         self.active = True

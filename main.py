@@ -4,8 +4,6 @@ import discord
 
 from dotenv import load_dotenv
 from discord.ext import commands
-from datetime import datetime
-
 
 load_dotenv()
 
@@ -26,6 +24,7 @@ async def main():
     await bot.load_extension("cogs.trivia")
     await bot.load_extension("cogs.data_reading")
     await bot.load_extension("cogs.edit_sheet")
+    await bot.load_extension("cogs.fun")
 
     await bot.start(TOKEN)
 
