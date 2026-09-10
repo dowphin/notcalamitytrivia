@@ -10,6 +10,9 @@ from utils.reading_gambles import read_slots
 
 ALLOWED_CHANNEL_ID = 1547471691163115650
 
+slots_items = [":pear:", ":tangerine:", ":strawberry:", ":lemon:", ":grapes:", ":watermelon:", "<:mystic_slime:1546711607269130342>"]
+slots_odds = [0.3, 0.25, 0.2, 0.15, 0.05, 0.03, 0.02] # percent change of rolling the corresponding item. should sum to 1.0
+
 class Fun(commands.Cog):
 
     def __init__(self, bot):
@@ -32,16 +35,13 @@ class Fun(commands.Cog):
 
         try:
 
-            slots_items = [":pear:", ":tangerine:", ":strawberry:", ":lemon:", ":grapes:", ":watermelon:", "<:mystic_slime:1546711607269130342>"]
-            odds = [0.3, 0.25, 0.2, 0.15, 0.05, 0.03, 0.02] # percent change of rolling the corresponding item. should sum to 1.0
-
             slots_weights = []
 
-            for i in range(len(odds)):
+            for i in range(len(slots_odds)):
                 if not slots_weights:
-                    slots_weights.append(odds[i])
+                    slots_weights.append(slots_odds[i])
                 else:
-                    slots_weights.append(round(odds[i] + slots_weights[i - 1], 4))
+                    slots_weights.append(round(slots_odds[i] + slots_weights[i - 1], 4))
 
 
             slots_grid = generate_slot_grid(slots_items, slots_weights)
