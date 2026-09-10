@@ -22,6 +22,8 @@ class Fun(commands.Cog):
         self.current_task = None
 
     async def cog_check(self, ctx):
+        if not ctx.channel.id == ALLOWED_CHANNEL_ID:
+            await ctx.send(embed=build_cool_embed(title="Error!", description="Sorry, you're not allowed to gamble here... go to <#1547471691163115650> instead"))
         return ctx.channel.id == ALLOWED_CHANNEL_ID
 
     @commands.command()

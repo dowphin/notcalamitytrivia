@@ -21,7 +21,10 @@ class Trivia(commands.Cog):
         self.total_questions = total_questions()
         self.stack = []
 
+
     async def cog_check(self, ctx):
+        if not ctx.channel.id == ALLOWED_CHANNEL_ID:
+            await ctx.send(embed=build_mystic_embed(title="Error!", description="Trivia is not allowed in this channel! Head over to <#839205265168662619>"))
         return ctx.channel.id == ALLOWED_CHANNEL_ID
 
     @commands.command()

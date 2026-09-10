@@ -13,6 +13,10 @@ class EditSheet(commands.Cog):
         self.current_task = None
 
     async def cog_check(self, ctx):
+
+        if not ctx.channel.id == ALLOWED_CHANNEL_ID:
+            await ctx.send(embed=build_nerdy_embed(title="Error!", description="You can't edit the sheet from here! go to <#1547471670447706153> instead"))
+
         return ctx.channel.id == ALLOWED_CHANNEL_ID
 
     @commands.command()
