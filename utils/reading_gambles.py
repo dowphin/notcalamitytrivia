@@ -106,7 +106,7 @@ def v(grid: list[list[str]]) -> list[str]:  # v shape, essentially simultaneous 
         v_pattern.add(grid[int(aux_string[i])][i])  # more set magic, should hopefully be the v shape
 
     if len(v_pattern) == 1:
-        found_runs.append(f"Found ^-shape of {grid[2][0]}s")
+        found_runs.append(f"Found Λ-shape of {grid[2][0]}s")
 
     v_pattern.clear()
 

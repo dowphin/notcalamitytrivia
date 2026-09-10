@@ -36,3 +36,6 @@ def sort_points():
     sorted_scores = {k: v for k,v in sorted(scores.items(), key=lambda item: item[1], reverse=True)}
 
     return sorted_scores
+
+def update_leaderboard(): # incomplete !!!
+    return 0

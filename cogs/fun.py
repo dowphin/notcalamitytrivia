@@ -1,10 +1,14 @@
 import random
 import asyncio
-
+import bisect
 
 from discord.ext import commands
+
 from utils.embeds import build_cool_embed, build_nerdy_embed
+from utils.calculations import generate_slot_grid
 from utils.reading_gambles import read_slots
+
+ALLOWED_CHANNEL_ID = 1547471691163115650
 
 class Fun(commands.Cog):
 
@@ -14,6 +18,9 @@ class Fun(commands.Cog):
         self.active = False
         self.current_task = None
 
+    async def cog_check(self, ctx):
+        return ctx.channel.id == ALLOWED_CHANNEL_ID
+
     @commands.command()
     async def gamble(self, ctx):
 
@@ -21,30 +28,23 @@ class Fun(commands.Cog):
             await ctx.send(embed=build_cool_embed(title="chill out man", description="You can't gamble multiple times at once! That would be cheating..."))
             return
 
-        editing_cog = self.bot.get_cog("EditSheet") # ensures trivia is not running simultaneously
-
-        if editing_cog and editing_cog.active:
-            await ctx.send(embed=build_nerdy_embed(title="Denied!", description="You cannot gamble while editing the sheet!"))
-            return
-
         self.active = True
 
         try:
 
-            slots_grid = []
-            slots_items = [":pear:", ":tangerine:", ":lemon:", ":strawberry:", ":grapes:", ":watermelon:", "<:mystic_slime:1546711607269130342>"]
-            slots_items_indexes = [i for i in range(len(slots_items))]
+            slots_items = [":pear:", ":tangerine:", ":strawberry:", ":lemon:", ":grapes:", ":watermelon:", "<:mystic_slime:1546711607269130342>"]
+            odds = [0.3, 0.25, 0.2, 0.15, 0.05, 0.03, 0.02] # percent change of rolling the corresponding item. should sum to 1.0
+
+            slots_weights = []
+
+            for i in range(len(odds)):
+                if not slots_weights:
+                    slots_weights.append(odds[i])
+                else:
+                    slots_weights.append(round(odds[i] + slots_weights[i - 1], 4))
 
 
-            for i in range(3):
-
-                row = []
-
-                for j in range(5):
-
-                    row.append(slots_items[random.choice(slots_items_indexes)])
-
-                slots_grid.append(row)
+            slots_grid = generate_slot_grid(slots_items, slots_weights)
 
             slots_grid_str = ""
 

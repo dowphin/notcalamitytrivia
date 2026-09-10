@@ -10,7 +10,7 @@ from utils.embeds import build_mystic_embed, build_nerdy_embed
 from utils.calculations import time_difference
 
 
-
+ALLOWED_CHANNEL_ID = 839205265168662619
 
 class Trivia(commands.Cog):
 
@@ -21,6 +21,9 @@ class Trivia(commands.Cog):
         self.total_questions = total_questions()
         self.stack = []
 
+    async def cog_check(self, ctx):
+        return ctx.channel.id == ALLOWED_CHANNEL_ID
+
     @commands.command()
     async def trivia(self, ctx): # asks trivia question and handles answers
 
@@ -30,11 +33,6 @@ class Trivia(commands.Cog):
             await ctx.send(embed=build_mystic_embed(title="", description="Ending trivia... do **!trivia** again to restart."))
             return
 
-        editing_cog = self.bot.get_cog("EditSheet") # ensures trivia is not running simultaneously
-
-        if editing_cog and editing_cog.active:
-            await ctx.send(embed=build_nerdy_embed(title="Denied!", description="You cannot run trivia while editing the sheet!"))
-            return
 
         self.active = True
         self.current_task = asyncio.current_task()

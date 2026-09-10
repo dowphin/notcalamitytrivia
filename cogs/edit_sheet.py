@@ -3,11 +3,17 @@ from discord.ext import commands
 from utils.questions import insert, delete_by_row_id, total_questions, fetch_by_num, fetch_by_question
 from utils.embeds import build_nerdy_embed
 
+ALLOWED_CHANNEL_ID = 1547471670447706153
+
+
 class EditSheet(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.active = False
         self.current_task = None
+
+    async def cog_check(self, ctx):
+        return ctx.channel.id == ALLOWED_CHANNEL_ID
 
     @commands.command()
 
@@ -18,10 +24,6 @@ class EditSheet(commands.Cog):
             await ctx.send(embed=build_nerdy_embed(title="Error!", description="Already editing sheet! Cancelling process."))
             return
 
-        trivia_cog = self.bot.get_cog("Trivia")
-        if trivia_cog and trivia_cog.active:
-            await ctx.send(embed=build_nerdy_embed(title="Error!", description="You cannot add questions while trivia is running!"))
-            return
 
         self.active = True
         self.current_task = asyncio.current_task()
@@ -98,11 +100,6 @@ class EditSheet(commands.Cog):
         if self.active:  # so a certain filipino chud can't spam this command
             self.current_task.cancel()
             await ctx.send(embed=build_nerdy_embed(title="Error!", description="Already editing sheet! Cancelling process."))
-            return
-
-        trivia_cog = self.bot.get_cog("Trivia")
-        if trivia_cog and trivia_cog.active:
-            await ctx.send(embed=build_nerdy_embed(title="Error!", description="You cannot delete questions while trivia is running!"))
             return
 
         self.active = True
