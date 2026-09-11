@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from utils.points import read_points, sort_points
+from utils.points import read_points, sort_points, fetch_scores, load_scores
 from utils.embeds import build_diva_embed
 
 
@@ -25,9 +25,9 @@ class DataReading(commands.Cog):
 
         str_leaderboard = ""
         iterator = 0
-        sorted_points = sort_points()
-
-        for i in sorted_points:
+        points = load_scores()
+        print(points)
+        for i in points:
             if iterator == 0:
                 str_leaderboard += ":first_place: "
             elif iterator == 1:
@@ -36,9 +36,9 @@ class DataReading(commands.Cog):
                 str_leaderboard += ":third_place: "
             else:
                 str_leaderboard += f"({iterator + 1}) "
-            player = await self.bot.fetch_user(int(i))
 
-            str_leaderboard += f"{player.name} has {sorted_points[i]} points.\n"
+            player = "chud"
+            str_leaderboard += f"<@{i}> has {points[i]} points.\n"
 
             iterator += 1
 

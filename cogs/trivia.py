@@ -4,7 +4,7 @@ import random
 import discord
 
 from discord.ext import commands
-from utils.points import add_point
+from utils.points import add_point, sort_points
 from utils.questions import total_questions, fetch_by_num
 from utils.embeds import build_mystic_embed, build_nerdy_embed
 from utils.calculations import time_difference
@@ -28,6 +28,9 @@ class Trivia(commands.Cog):
         return ctx.channel.id == ALLOWED_CHANNEL_ID
 
     @commands.command()
+
+
+
     async def trivia(self, ctx): # asks trivia question and handles answers
 
         if self.active: # so a certain filipino chud can't spam this command

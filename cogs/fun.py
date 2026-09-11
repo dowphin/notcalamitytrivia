@@ -39,7 +39,7 @@ class Fun(commands.Cog):
 
             slots_weights = []
 
-            for i in range(len(slots_odds)):
+            for i in range(len(slots_odds)): # prefix sum is necessary because of how bisect.bisect_right works
                 if not slots_weights:
                     slots_weights.append(slots_odds[i])
                 else:

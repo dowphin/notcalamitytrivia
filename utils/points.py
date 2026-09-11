@@ -23,6 +23,9 @@ def add_point(user_id):
         scores[user_id] = 0
 
     scores[user_id] = scores.get(user_id, 0) + 1
+
+    scores = sort_points(scores)
+
     save_scores(scores)
 
 def read_points(user_id):
@@ -30,12 +33,23 @@ def read_points(user_id):
     user_id = str(user_id)
     return scores[user_id]
 
-def sort_points():
+def fetch_scores():
+
     scores = load_scores()
+    return scores
 
-    sorted_scores = {k: v for k,v in sorted(scores.items(), key=lambda item: item[1], reverse=True)}
+def sort_points(scores): # does not scale well if more than 20 people use the bot i think
 
-    return sorted_scores
+    scores_items = list(scores.items())
 
-def update_leaderboard(): # incomplete !!!
-    return 0
+    for i in range (1, len(scores_items)):
+        current = scores_items[i]
+        j = i - 1
+
+        while j >= 0 and scores_items[j][1] < current[1]:
+            scores_items[j + 1] = scores_items[j]
+            j -= 1
+
+        scores_items[j + 1] = current
+
+    return dict(scores_items)
